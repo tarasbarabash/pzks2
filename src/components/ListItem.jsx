@@ -1,7 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faPen, faClone } from "@fortawesome/free-solid-svg-icons";
+import {
+  faTrash,
+  faThList,
+  faPen,
+  faClone
+} from "@fortawesome/free-solid-svg-icons";
 
 const ListItem = ({ item, index, onDelete, onClone, name }) => {
   return (
@@ -34,6 +39,15 @@ const ListItem = ({ item, index, onDelete, onClone, name }) => {
       </td>
       <td>
         <div className="btn-group" role="group">
+          {name === "tasks" && (
+            <Link
+              to={`/tasks/${item.id}/queue`}
+              className="btn btn-primary btn-sm"
+              title="Сформувати чергу"
+            >
+              <FontAwesomeIcon icon={faThList} />
+            </Link>
+          )}
           <Link
             to={`/${name}/${item.id}`}
             className="btn btn-primary btn-sm"

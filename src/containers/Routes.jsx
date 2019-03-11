@@ -1,6 +1,6 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
-import { GraphEditorPage, GraphListPage, HomePage } from "../pages";
+import { GraphEditorPage, GraphListPage, QueuePage, HomePage } from "../pages";
 
 const Routes = () => {
   return (
@@ -42,6 +42,15 @@ const Routes = () => {
           }}
         />
         <Route
+          path="/tasks/:id*/queue"
+          exact
+          type="task"
+          render={props => {
+            document.title = `Формування черги задач | ПЗКС - 2`;
+            return <QueuePage id={props.match.params.id} />;
+          }}
+        />
+        <Route
           key="cs-graphs"
           exact
           path="/cs"
@@ -67,7 +76,6 @@ const Routes = () => {
             document.title = `Редактор графу комп'ютерної системи | ПЗКС - 2`;
             return <GraphEditorPage name="cs" id={props.match.params.id} />;
           }}
-        />
         />
       </Switch>
     </div>
