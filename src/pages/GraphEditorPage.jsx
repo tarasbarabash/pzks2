@@ -3,6 +3,7 @@ import { withRouter } from "react-router-dom";
 import { DataSet } from "vis";
 import GraphView from "../components/GraphView";
 import Message from "../components/Message";
+import GenerationForm from "../components/GenerationForm";
 
 const ID = () =>
   "_" +
@@ -300,6 +301,7 @@ class GraphEditorPage extends Component {
       nodesWeightSum,
       generated
     } = this.state;
+    const { name, id } = this.props;
     return (
       <React.Fragment>
         <div className="my-4">
@@ -329,6 +331,12 @@ class GraphEditorPage extends Component {
             />
           </form>
         </div>
+
+        {name === "tasks" && !id && (
+          <GenerationForm
+            onGenerate={(e, formData) => this.handleGenerate(e, formData)}
+          />
+        )}
       </React.Fragment>
     );
   }
