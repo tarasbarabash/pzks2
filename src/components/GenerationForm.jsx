@@ -10,14 +10,17 @@ class GenerationForm extends Component {
 
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value });
+    if (this.props.handleUpdates) {
+      this.props.handleUpdates(e);
+    }
   };
 
   render() {
     const { vertexNumb, maxWeight, minWeight, correlation } = this.state;
     return (
-      <div className="my-4">
-        <h4>Генератор графу задач</h4>
-        <form className="py-4">
+      <div>
+        {this.props.showTitle === true && <h4>Генератор графу задач</h4>}
+        <form className="form-group">
           <div className="input-group mb-2">
             <div className="input-group-prepend">
               <div className="input-group-text">Кількість вершин (задач): </div>
@@ -75,12 +78,16 @@ class GenerationForm extends Component {
               onChange={this.handleChange}
             />
           </div>
-          <button
-            className="btn btn-primary float-right"
-            onClick={e => this.props.onGenerate(e, this.state)}
-          >
-            Згенерувати
-          </button>
+          {this.props.showButton && (
+            <div class="text-right">
+              <button
+                className="btn btn-primary"
+                onClick={e => this.props.onGenerate(e, this.state)}
+              >
+                Згенерувати
+              </button>
+            </div>
+          )}
         </form>
       </div>
     );

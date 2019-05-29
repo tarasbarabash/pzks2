@@ -1,7 +1,3 @@
-class ExecutionError extends Error {
-  constructor(text) {
-    super(text);
-  }
-}
+class ExecutionError extends Error {}
 
 export default ExecutionError;

@@ -12,6 +12,9 @@ class Queue {
       case 1:
         result = this._run1();
         break;
+      case 2:
+        result = this._run2();
+        break;
       case 11:
         result = this._run11();
         break;
@@ -40,10 +43,14 @@ class Queue {
   }
 
   _toEdgesArray(reverse) {
-    const { edges } = this._data;
-    const graph = [];
+    const { nodes, edges } = this._data;
+    const graph = {};
+    nodes.forEach(node => {
+      graph[node.id] = [];
+    });
     edges.forEach(edge => {
-      graph.push(!reverse ? [edge.from, edge.to] : [edge.to, edge.from]);
+      if (!reverse) graph[edge.from] = [...graph[edge.from], edge.to];
+      else graph[edge.to] = [...graph[edge.to], edge.from];
     });
     return graph;
   }
@@ -68,7 +75,7 @@ class Queue {
     return paths({ graph: this._toEdgesArray(reverse), from, to });
   }
 
-  _BFS(reverse = false) {
+  BFS(reverse = false) {
     const { nodes } = this._data;
     const allNodes = Object.keys(nodes._data);
     const matrixNodes = Object.keys(this._toMatrix(reverse));
@@ -101,9 +108,21 @@ class Queue {
     return { weights, maxPaths };
   }
 
+  _run2() {
+    const { nodes } = this._data;
+    const { weights } = this.BFS();
+    let result = [];
+    for (let i = 0; i < nodes.length; i++) {
+      const value = weights[i];
+      result.push({ number: i, value, names: [`Tкр.к.`] });
+    }
+    const sortedResult = result.sort((a, b) => b.value - a.value);
+    return sortedResult;
+  }
+
   _run1() {
     const { nodes } = this._data;
-    const { weights, maxPaths } = this._BFS();
+    const { weights, maxPaths } = this.BFS();
     const graphWeight = Math.max(...Object.values(weights));
     const lengthes = Object.values(maxPaths).map(i => i.length);
     const graphLength = Math.max(...lengthes);
@@ -120,7 +139,7 @@ class Queue {
     const adjMatrix = this._toUndirectedMatrix();
     const { nodes } = this._data;
     const allNodes = Object.keys(nodes._data);
-    const { weights } = this._BFS(true);
+    const { weights } = this.BFS(true);
     const result = allNodes.map(node => {
       return {
         number: node,
